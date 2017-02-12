@@ -9,8 +9,13 @@ using Newtonsoft.Json.Linq;
 
 namespace MTG.Repository
 {
-    public class Repo
-    {
+	public static class Repo
+	{
+		public static IEnumerable<T> OrEmptyIfNull<T>(this IEnumerable<T> source)
+		{
+			return source ?? Enumerable.Empty<T>();
+		}
+
 		public static List<Set> PopulateSet()
 		{
 			var returnList = new List<Set>();
@@ -24,9 +29,13 @@ namespace MTG.Repository
 			{
 				foreach(var Set in SetName)
 				{
-					var set = PopulateSet(Set);
+					if(Set.type == "core" || Set.type == "expansion")
+					{
 
-					returnList.Add(set);
+						var set = PopulateSet(Set);
+
+						returnList.Add(set);
+					}
 				}
 			}
 			return returnList;
@@ -42,7 +51,7 @@ namespace MTG.Repository
 			returnSet.Border = s.border;
 			returnSet.Type = s.type;
 			returnSet.Block = s.block;
-			
+
 			foreach(var Card in s.cards)
 			{
 				var card = PopulateCard(Card);
@@ -55,11 +64,29 @@ namespace MTG.Repository
 		private static Card PopulateCard(dynamic c)
 		{
 			var returnCard = new Card();
+			returnCard.ColorIdentity = new List<string>();
+			returnCard.Colors = new List<string>();
+			returnCard.Names = new List<string>();
+			returnCard.Printings = new List<string>();
+			returnCard.Rulings = new List<Ruling>();
+			returnCard.Subtypes = new List<string>();
+			returnCard.SuperTypes = new List<string>();
+			returnCard.Types = new List<string>();
+			returnCard.Variations = new List<string>();
 
 			returnCard.Artist = c.artist;
 			returnCard.Cmc = c.cmc;
-			//returnCard.ColorIdentity
-			//returnCard.Colors
+
+			foreach(var item in c.colorIdentity ?? Enumerable.Empty<string>())
+			{
+				returnCard.ColorIdentity.Add((string)item);
+			}
+
+			foreach(var item in c.colors ?? Enumerable.Empty<string>())
+			{
+				returnCard.Colors.Add((string)item);
+			}
+
 			returnCard.Flavor = c.flavor;
 			returnCard.Id = c.id;
 			returnCard.ImageName = c.imageName;
@@ -69,21 +96,57 @@ namespace MTG.Repository
 			returnCard.MciNumber = c.mciNumber;
 			returnCard.MultiverseId = c.multiverseid;
 			returnCard.Name = c.name;
-			//returnCard.Names
+
+			foreach(var item in c.names ?? Enumerable.Empty<string>())
+			{
+				returnCard.Names.Add((string)item);
+			}
+
 			returnCard.Number = c.number;
 			returnCard.OriginalText = c.originalText;
 			returnCard.OriginalType = c.originalType;
 			returnCard.Power = c.power;
-			//returnCard.Printings
+
+			foreach(var item in c.printings ?? Enumerable.Empty<string>())
+			{
+				returnCard.Printings.Add((string)item);
+			}
+
 			returnCard.Rarity = c.rarity;
-			//returnCard.Rulings
-			//returnCard.Subtypes
-			//returnCard.SuperTypes
+
+			foreach(var item in c.rulings ?? Enumerable.Empty<string>())
+			{
+				string date = item.date;
+				string text = item.text;
+				var ruling = new Ruling();
+				ruling.Date = date;
+				ruling.Text = text;
+				returnCard.Rulings.Add(ruling);
+			}
+
+			foreach(var item in c.subtypes ?? Enumerable.Empty<string>())
+			{
+				returnCard.Subtypes.Add((string)item);
+			}
+
+			foreach(var item in c.supertypes ?? Enumerable.Empty<string>())
+			{
+				returnCard.SuperTypes.Add((string)item);
+			}
+
 			returnCard.Text = c.text;
 			returnCard.Toughness = c.toughness;
 			returnCard.Type = c.type;
-			//returnCard.Types
-			//returnCard.Variations
+
+			foreach(var item in c.types ?? Enumerable.Empty<string>())
+			{
+				returnCard.Types.Add((string)item);
+			}
+
+			foreach(var item in c.variations ?? Enumerable.Empty<string>())
+			{
+				returnCard.Variations.Add((string)item);
+			}
 
 			return returnCard;
 		}

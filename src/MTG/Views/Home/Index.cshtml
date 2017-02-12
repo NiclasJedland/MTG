@@ -1,76 +1,62 @@
 ﻿@model MTG.Models.ViewModel
-
+@{
+	int i = 0;
+}
 <div class="row">
 	<table class="table table-bordered table-hover table-striped table-responsive">
 		<tr>
 			<th class="col-md-4">Set Name</th>
-			<th class="col-md-1">Set Code</th>
+			<th class="col-md-2">Set Code</th>
 			<th class="col-md-2">Block</th>
-			<th class="col-md-1">Type</th>
-			<th class="col-md-1">ReleaseDate</th>
+			<th class="col-md-2">Type</th>
+			<th class="col-md-2">ReleaseDate</th>
 		</tr>
-		@foreach(var item in Model.Sets.OrderByDescending(s => s.ReleaseDate))
+		@foreach(var set in Model.Sets.OrderByDescending(s => s.ReleaseDate))
 		{
-			@if(item.Type == "core" || item.Type == "expansion")
+			<tr id="set">
+				<td>@set.Name</td>
+				<td>@set.Code</td>
+				<td>@set.Block</td>
+				<td>@set.Type</td>
+				<td>@set.ReleaseDate</td>
+			</tr>
+
+			@foreach(var card in set.Cards)
 			{
-				<tr id="set">
-					<td>@item.Name</td>
-					<td>@item.Code</td>
-					<td>@item.Block</td>
-					<td>@item.Type</td>
-					<td>@item.ReleaseDate</td>
-				</tr>
-				<tr hidden>
-					<td colspan="5" >
-						test
-					</td>
-				</tr>
+				@if(i % 5 == 0)
+				{
+					@:<tr colspan="5">
+				}
+				<td>Name: @card.Name</td>
+
+				@if(i % 5 == 4)
+				{
+					@:</tr>
+				}
+
+				<tr><td>---Picture Here---</td></tr>
+
+				@foreach(var ruling in card.Rulings)
+				{
+					<tr><td>@ruling.Date  @ruling.Text</td></tr>
+				}
+
+				i++;
 			}
 		}
 	</table>
+
+
+
+
+
 </div>
 <script>
 	$(document).ready(function () {
 		$("#set td").click(function () {
+
 			$(this).parent().next().slideToggle();
 		});
 
 	});
 </script>
-
-
-
-
-@*
-	<div class="row">
-		<table class="table table-bordered table-hover table-striped table-responsive">
-			<tr>
-				<th class="col-md-4">Set Name</th>
-				<th class="col-md-1">Set Code</th>
-				<th class="col-md-2">Block</th>
-				<th class="col-md-1">Type</th>
-				<th class="col-md-1">ReleaseDate</th>
-			</tr>
-			@foreach(var item in Model.Sets.OrderByDescending(s => s.ReleaseDate))
-			{
-				@if(item.Type == "core" || item.Type == "expansion")
-				{
-					<tr id="set">
-						<td>@item.Name</td>
-						<td>@item.Code</td>
-						<td>@item.Block</td>
-						<td>@item.Type</td>
-						<td>@item.ReleaseDate</td>
-					</tr>
-					<tr>
-						<td colspan="4">
-							<div class="content">
-								test
-							</div>
-						</td>
-					</tr>
-				}
-			}
-		</table>
-	</div>
-*@

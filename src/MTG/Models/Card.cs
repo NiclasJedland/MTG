@@ -6,16 +6,6 @@ using Newtonsoft.Json;
 
 namespace MTG.Models
 {
-	public enum ManaCost
-	{
-		W, U, B, R, G, C
-	}
-
-	public enum Rarity
-	{
-		Common, Uncommon, Rare, Mythic, Special, Basic
-	}
-
     public class Card
     {
 		[JsonProperty("artist")]
@@ -82,7 +72,7 @@ namespace MTG.Models
 		public string Rarity { get; set; }
 		
 		[JsonProperty("rulings")]
-		public List<string> Rulings { get; set; }
+		public List<Ruling> Rulings { get; set; }
 
 		[JsonProperty("subtypes")]
 		public List<string> Subtypes { get; set; }

@@ -1,62 +1,110 @@
 ﻿@model MTG.Models.ViewModel
-@{
-	int i = 0;
-}
-<div class="row">
-	<table class="table table-bordered table-hover table-striped table-responsive">
-		<tr>
-			<th class="col-md-4">Set Name</th>
-			<th class="col-md-2">Set Code</th>
-			<th class="col-md-2">Block</th>
-			<th class="col-md-2">Type</th>
-			<th class="col-md-2">ReleaseDate</th>
-		</tr>
+
+<div class="container">	
+	<div class="row">
+		<div>
+			<div class="headline col-md-4">Set Name</div>
+			<div class="headline col-md-2">Set Code</div>
+			<div class="headline col-md-2">Block</div>
+			<div class="headline col-md-2">Type</div>
+			<div class="headline col-md-2">Release Date</div>
+		</div>
 		@foreach(var set in Model.Sets.OrderByDescending(s => s.ReleaseDate))
 		{
-			<tr id="set">
-				<td>@set.Name</td>
-				<td>@set.Code</td>
-				<td>@set.Block</td>
-				<td>@set.Type</td>
-				<td>@set.ReleaseDate</td>
-			</tr>
-
-			@foreach(var card in set.Cards)
-			{
-				@if(i % 5 == 0)
+			<div class="set">
+				<div class="setInfo col-md-4">@set.Name</div>
+				<div class="setInfo text-center col-md-2">@set.Code</div>
+				<div class="setInfo text-center col-md-2">@set.Block</div>
+				<div class="setInfo text-center col-md-2">@set.Type</div>
+				<div class="setInfo text-center col-md-2">@set.ReleaseDate</div>
+			</div>
+			<div hidden>
+				@foreach(var card in set.Cards)
 				{
-					@:<tr colspan="5">
+					<div class="card col-md-3">
+						<div class="cardInfo">Name: @card.Name</div>
+						<div class="cardInfo">
+							<img class="cardImg" src="~/images/MTGBack.jpg" />
+						</div>
+						@foreach(var ruling in card.Rulings)
+						{
+							<div class="cardInfo">
+								<div class="text-center">@ruling.Date @ruling.Text</div>
+							</div>
+						}
+					</div>
 				}
-				<td>Name: @card.Name</td>
-
-				@if(i % 5 == 4)
-				{
-					@:</tr>
-				}
-
-				<tr><td>---Picture Here---</td></tr>
-
-				@foreach(var ruling in card.Rulings)
-				{
-					<tr><td>@ruling.Date  @ruling.Text</td></tr>
-				}
-
-				i++;
-			}
+			</div>
 		}
-	</table>
-
-
-
-
-
+	</div>
 </div>
 <script>
 	$(document).ready(function () {
-		$("#set td").click(function () {
-
-			$(this).parent().next().slideToggle();
+		$(".set div").click(function () {
+			$(this).parent().next().slideToggle("slow");
+			if ($(this).parent().hasClass("highlighted")) {
+				$(this).parent().removeClass("highlighted");
+			}
+			else {
+				$(this).parent().addClass("highlighted");
+			}
 		});
-
 	});
 </script>
+
+
+
+
+
+@*<div class="row">
+		<table class="table table-bordered table-hover table-striped table-responsive">
+			<tr>
+				<th class="col-md-4">Set Name</th>
+				<th class="col-md-2">Set Code</th>
+				<th class="col-md-2">Block</th>
+				<th class="col-md-2">Type</th>
+				<th class="col-md-2">ReleaseDate</th>
+			</tr>
+			@foreach(var set in Model.Sets.OrderByDescending(s => s.ReleaseDate))
+			{
+				<tr class="set">
+					<td>@set.Name</td>
+					<td>@set.Code</td>
+					<td>@set.Block</td>
+					<td>@set.Type</td>
+					<td>@set.ReleaseDate</td>
+				</tr>
+
+				@foreach(var card in set.Cards)
+				{
+					@if(i % 5 == 0)
+					{
+						@:<tr class="cardInfo" colspan="5">
+					}
+					<td class="cardInfo">Name: @card.Name</td>
+
+					@if(i % 5 == 4)
+					{
+						@:</tr>
+					}
+
+					<tr class="cardInfo"><td>---Picture Here---</td></tr>
+
+					@foreach(var ruling in card.Rulings)
+					{
+						<tr class="cardInfo"><td>@ruling.Date  @ruling.Text</td></tr>
+					}
+
+					i++;
+				}
+			}
+		</table>
+	</div>
+
+	<script>
+		$(document).ready(function () {
+			$(".set td").click(function () {
+				$(this).parent().next(".cardInfo").slideToggle();
+			});
+		});
+	</script>*@

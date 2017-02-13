@@ -11,12 +11,9 @@ namespace MTG.Repository
 {
 	public static class Repo
 	{
-		public static IEnumerable<T> OrEmptyIfNull<T>(this IEnumerable<T> source)
-		{
-			return source ?? Enumerable.Empty<T>();
-		}
+		public static List<Set> AllSets { get; set; }
 
-		public static List<Set> PopulateSet()
+		public static void PopulateSet()
 		{
 			var returnList = new List<Set>();
 
@@ -31,14 +28,12 @@ namespace MTG.Repository
 				{
 					if(Set.type == "core" || Set.type == "expansion")
 					{
-
 						var set = PopulateSet(Set);
-
 						returnList.Add(set);
 					}
 				}
 			}
-			return returnList;
+			AllSets = returnList;
 		}
 
 		private static Set PopulateSet(dynamic s)
@@ -54,10 +49,12 @@ namespace MTG.Repository
 
 			foreach(var Card in s.cards)
 			{
-				var card = PopulateCard(Card);
-				returnSet.Cards.Add(card);
+				if(Card.rarity == "Rare" || Card.rarity == "Mythic Rare")
+				{
+					var card = PopulateCard(Card);
+					returnSet.Cards.Add(card);
+				}
 			}
-
 			return returnSet;
 		}
 
@@ -150,7 +147,5 @@ namespace MTG.Repository
 
 			return returnCard;
 		}
-
-
 	}
 }

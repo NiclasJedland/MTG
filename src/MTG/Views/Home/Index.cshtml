@@ -1,8 +1,11 @@
 ﻿@model MTG.Models.ViewModel
+@{ 
+	int i = 0;
+}
 
-<div class="container">	
-	<div class="row">
-		<div>
+<div class="container">
+	<div>
+		<div class="row">
 			<div class="headline col-md-4">Set Name</div>
 			<div class="headline col-md-2">Set Code</div>
 			<div class="headline col-md-2">Block</div>
@@ -11,27 +14,31 @@
 		</div>
 		@foreach(var set in Model.Sets.OrderByDescending(s => s.ReleaseDate))
 		{
-			<div class="set">
+			<div class="set row">
 				<div class="setInfo col-md-4">@set.Name</div>
 				<div class="setInfo text-center col-md-2">@set.Code</div>
-				<div class="setInfo text-center col-md-2">@set.Block</div>
+				<div class="setInfo text-center col-md-2">@(set.Block == null ? "Core" : set.Block)</div>
 				<div class="setInfo text-center col-md-2">@set.Type</div>
 				<div class="setInfo text-center col-md-2">@set.ReleaseDate</div>
 			</div>
-			<div hidden>
-				@foreach(var card in set.Cards)
+			<div class="cards row" hidden>
+				@foreach(var card in set.Cards.OrderBy(s => s.Rarity).ThenBy(s => s.Name))
 				{
 					<div class="card col-md-3">
-						<div class="cardInfo">Name: @card.Name</div>
-						<div class="cardInfo">
-							<img class="cardImg" src="~/images/MTGBack.jpg" />
-						</div>
-						@foreach(var ruling in card.Rulings)
-						{
-							<div class="cardInfo">
-								<div class="text-center">@ruling.Date @ruling.Text</div>
+						<a asp-controller="Home" asp-action="ShowCard" 
+						   asp-route-cardId="@card.Id" asp-route-setName="@set.Name">
+							@if(card.Rarity == "Mythic Rare")
+							{
+								<div class="cardInfo text-center mythic">@card.Name</div>
+							}
+							else if(card.Rarity == "Rare")
+							{
+								<div class="cardInfo text-center rare">@card.Name</div>
+							}
+							<div class="cardInfo text-center">
+								<img class="cardImg" src="~/images/MTGBack.jpg" />
 							</div>
-						}
+						</a>
 					</div>
 				}
 			</div>
@@ -41,7 +48,7 @@
 <script>
 	$(document).ready(function () {
 		$(".set div").click(function () {
-			$(this).parent().next().slideToggle("slow");
+			$(this).parent().next().slideToggle(0);
 			if ($(this).parent().hasClass("highlighted")) {
 				$(this).parent().removeClass("highlighted");
 			}
@@ -56,55 +63,78 @@
 
 
 
-@*<div class="row">
+
+@*
+	<div class="container">
 		<table class="table table-bordered table-hover table-striped table-responsive">
-			<tr>
-				<th class="col-md-4">Set Name</th>
-				<th class="col-md-2">Set Code</th>
-				<th class="col-md-2">Block</th>
-				<th class="col-md-2">Type</th>
-				<th class="col-md-2">ReleaseDate</th>
-			</tr>
-			@foreach(var set in Model.Sets.OrderByDescending(s => s.ReleaseDate))
-			{
-				<tr class="set">
-					<td>@set.Name</td>
-					<td>@set.Code</td>
-					<td>@set.Block</td>
-					<td>@set.Type</td>
-					<td>@set.ReleaseDate</td>
-				</tr>
-
-				@foreach(var card in set.Cards)
+			<tr class="row">
+				<th class="headline col-md-5">Set Name</th>
+				<th class="headline col-md-2">Set Code</th>
+				<th class="headline col-md-3">Block</th>
+				<th class="headline col-md-2">Type</th>
+<th class="headline col-md-2">Release Date</th>
+		</tr>
+@foreach(var set in Model.Sets.OrderByDescending(s => s.ReleaseDate))
+{
+	<tr class="set row">
+		<td class="setInfo col-md-5">@set.Name</td>
+		<td class="setInfo text-center col-md-2">@set.Code</td>
+		<td class="setInfo text-center col-md-3">@set.Block</td>
+		<td class="setInfo text-center col-md-2">@set.Type</td>
+		<td class="setInfo text-center col-md-2">@set.ReleaseDate</td>
+	</tr>
+			<!--<tr class="set row cards" hidden>
+			@foreach(var card in set.Cards)
 				{
-					@if(i % 5 == 0)
+				@if(i == 0)
 					{
-						@:<tr class="cardInfo" colspan="5">
+					@:<tr class="set row cards" hidden>
 					}
-					<td class="cardInfo">Name: @card.Name</td>
-
-					@if(i % 5 == 4)
+				<td class="card">
+					@if(card.Rarity == "Mythic Rare")
 					{
-						@:</tr>
+						<div class="cardInfo mythic text-center">@card.Name</div>
 					}
-
-					<tr class="cardInfo"><td>---Picture Here---</td></tr>
-
+					else if(card.Rarity == "Rare")
+					{
+						<div class="cardInfo rare text-center">@card.Name</div>
+					}
+					<div class="cardInfo">
+						<img class="cardImg" src="~/images/MTGBack.jpg" />
+					</div>
 					@foreach(var ruling in card.Rulings)
 					{
-						<tr class="cardInfo"><td>@ruling.Date  @ruling.Text</td></tr>
+						<div class="cardInfo ruling row">
+							<div class="text-center col-md-4">@ruling.Date:</div>
+							<div class="text-center col-md-8">@ruling.Text</div>
+						</div>
 					}
-
+				</td>
 					i++;
+				@if(i == 4)
+					{
+					@:
+				</tr>
+						i = 0;
+					}
 				}
+			<!--</tr>
+}
+</table>
+</div>
+<script>
+	$(document).ready(function () {
+		$(".set td").click(function () {
+			$(this).parent().next().slideToggle("slow");
+			if ($(this).parent().hasClass("highlighted")) {
+				$(this).parent().removeClass("highlighted");
 			}
-		</table>
-	</div>
-
-	<script>
-		$(document).ready(function () {
-			$(".set td").click(function () {
-				$(this).parent().next(".cardInfo").slideToggle();
-			});
+			else {
+				$(this).parent().addClass("highlighted");
+			}
 		});
-	</script>*@
+
+	});
+</script>	
+
+*@

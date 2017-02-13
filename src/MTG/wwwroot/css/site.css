@@ -4,9 +4,26 @@
 }
 
 .body-content {
-	padding-left: 15px;
-	padding-right: 15px;
+	padding-left: 0px;
+	padding-right: 0px;
 	font-family: 'Roboto', sans-serif;
+}
+
+.rare {
+	color: #dbc486;
+}
+
+.mythic {
+	color: #d36814;
+}
+
+.cardImg {
+	width: 75%;
+}
+
+.highlighted {
+	color: red;
+	font-weight: bold;
 }
 
 .headline {
@@ -18,8 +35,13 @@
 	text-transform: uppercase;
 }
 
-.setInfo, .card {
+.setInfo {
 	border: 1px solid black;
+}
+
+.card{
+	border: 1px solid black;
+	height: 100%;
 }
 
 	.headline:hover, .setInfo:hover {
@@ -27,11 +49,17 @@
 		color: black;
 	}
 
-.cardImg {
-	width: 100%;
+.rule {
+	text-align: left;
+	font-size: 14px;
+	padding: 5px 0px 5px 0px;
 }
 
-.highlighted {
-	color: red;
-	font-weight: bold;
+.fullCard{
+	width: 35%;
+}
+
+.searchArea{
+	text-align: center;
+	margin-top: 10px;
 }

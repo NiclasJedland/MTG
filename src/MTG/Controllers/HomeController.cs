@@ -25,7 +25,7 @@ namespace MTG.Controllers
 
 		public IActionResult ShowCard(string cardId, string setName)
 		{
-			var card = Repo.AllSets.FirstOrDefault(s => s.Name == setName)
+			Card card = Repo.AllSets.FirstOrDefault(s => s.Name == setName)
 				.Cards.FirstOrDefault(s => s.Id == cardId);
 			return View(card);
 		}

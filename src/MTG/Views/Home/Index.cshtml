@@ -1,7 +1,4 @@
 ﻿@model MTG.Models.ViewModel
-@{ 
-	int i = 0;
-}
 
 <div class="container">
 	<div>
@@ -36,7 +33,7 @@
 								<div class="cardInfo text-center rare">@card.Name</div>
 							}
 							<div class="cardInfo text-center">
-								<img class="cardImg" src="~/images/MTGBack.jpg" />
+								<img class="cardImg" src="@("/images/" + set.Name + "/" + card.Name + ".jpg" )"/>
 							</div>
 						</a>
 					</div>

@@ -17,6 +17,8 @@ namespace MTG.Repository
 		{
 			var returnList = new List<Set>();
 
+			var targetDate = DateTime.Parse("2011-07-14").Date;
+
 			var file = @"wwwroot\Files\MTG.json";
 			var json = File.ReadAllText(file);
 
@@ -25,10 +27,12 @@ namespace MTG.Repository
 			foreach(var SetName in dynamicData)
 			{
 				foreach(var Set in SetName)
-				{
-					if(Set.type == "core" || Set.type == "expansion")
+				{					
+					var date = DateTime.Parse(Set.releaseDate.ToString()).Date;
+
+					if((Set.type == "core" || Set.type == "expansion") && (date > targetDate))
 					{
-						var set = PopulateSet(Set);
+						var set = PopulateSet(Set, Set.name.ToString());
 						returnList.Add(set);
 					}
 				}
@@ -36,7 +40,7 @@ namespace MTG.Repository
 			AllSets = returnList;
 		}
 
-		private static Set PopulateSet(dynamic s)
+		private static Set PopulateSet(dynamic s, string set)
 		{
 			var returnSet = new Set();
 			returnSet.Cards = new List<Card>();
@@ -53,6 +57,15 @@ namespace MTG.Repository
 				{
 					var card = PopulateCard(Card);
 					returnSet.Cards.Add(card);
+				}
+				else
+				{
+					//remove all non-rare/mythics
+					var file = @"wwwroot\images\" + set + @"\" + Card.name.ToString() + ".jpg";
+					if(File.Exists(file))
+					{
+						File.Delete(file);
+					}
 				}
 			}
 			return returnSet;

@@ -60,12 +60,10 @@ namespace MTG.Repository
 				}
 				else
 				{
-					//remove all non-rare/mythics
+					//remove all non-rare/mythics image files
 					var file = @"wwwroot\images\" + set + @"\" + Card.name.ToString() + ".jpg";
 					if(File.Exists(file))
-					{
 						File.Delete(file);
-					}
 				}
 			}
 			return returnSet;

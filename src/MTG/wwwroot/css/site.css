@@ -9,7 +9,7 @@
 	font-family: 'Roboto', sans-serif;
 }
 
-footer{
+footer {
 	text-align: center;
 }
 
@@ -43,15 +43,15 @@ footer{
 	border: 1px solid black;
 }
 
-.card{
+.card {
 	border: 1px solid black;
 	height: 100%;
 }
 
-	.headline:hover, .setInfo:hover {
-		background-color: lightgrey;
-		color: black;
-	}
+.headline:hover, .setInfo:hover {
+	background-color: lightgrey;
+	color: black;
+}
 
 .rule {
 	text-align: left;
@@ -59,15 +59,20 @@ footer{
 	padding: 5px 0px 5px 0px;
 }
 
-.fullCard{
+.fullCard {
 	width: 35%;
 }
 
-.searchArea{
+.searchArea {
 	text-align: center;
 	margin-top: 10px;
 }
 
-.block:hover{
+.block:hover {
 	text-decoration: underline;
+}
+
+input[type="radio"] {
+	margin-top: -1px;
+	vertical-align: middle;
 }

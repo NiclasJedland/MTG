@@ -15,7 +15,7 @@
 				<div class="setInfo col-md-4">@set.Name</div>
 				<div class="setInfo text-center col-md-2">@set.Code</div>
 				<a asp-controller="Home" asp-action="SearchBlock" asp-route-search="@set.Block">
-					<div class="setInfo block text-center text-info col-md-2">@(set.Block == null ? "Core" : set.Block)</div>
+					<div class="setInfo block text-center text-info col-md-2">@(set.Block @*== null ? "Core" : set.Block*@)</div>
 				</a>
 				<div class="setInfo text-center col-md-2">@set.Type</div>
 				<div class="setInfo text-center col-md-2">@set.ReleaseDate</div>

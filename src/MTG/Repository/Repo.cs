@@ -49,7 +49,7 @@ namespace MTG.Repository
 			returnSet.ReleaseDate = s.releaseDate;
 			returnSet.Border = s.border;
 			returnSet.Type = s.type;
-			returnSet.Block = s.block;
+			returnSet.Block = s.block == null ? "Core" : s.block;
 
 			foreach(var Card in s.cards)
 			{

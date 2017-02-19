@@ -31,15 +31,39 @@ namespace MTG.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Search(string search)
+		public IActionResult Search(string search, string searchType)
 		{
 			var vm = new ViewModel();
-			vm.Cards = new List<Card>();
+			if(string.IsNullOrEmpty(search))
+				return RedirectToAction("Index");
 
-			vm.Cards= Repo.AllSets.SelectMany(s => s.Cards)
-				.Where(s => s.Name.ToLower().Contains(search.ToLower())).ToList();
+			if(searchType == "Cards")
+			{
+				vm.Cards = new List<Card>();
+				vm.Cards = Repo.AllSets.SelectMany(s => s.Cards)
+					.Where(s => s.Name.ToLower().Contains(search.ToLower())).ToList();
 
-			return View(vm);
+				if(vm.Cards.Count() == 0)
+					return RedirectToAction("Index");
+
+				return View(vm);
+			}
+			else if(searchType == "Sets")
+			{
+				vm.Sets = new List<Set>();
+
+				vm.Sets = Repo.AllSets.Where(s => s.Name.ToLower().Contains(search.ToLower())
+					|| s.Code.ToLower().Contains(search.ToLower())
+					|| s.Block.ToLower() == search.ToLower()
+					).ToList();
+
+				if(vm.Sets.Count() == 0)
+					return RedirectToAction("Index");
+
+				return View("Index", vm);
+			}
+
+			return View("Error");
 		}
 
 		public IActionResult SearchBlock(string search)
@@ -47,7 +71,7 @@ namespace MTG.Controllers
 			var vm = new ViewModel();			
 			vm.Sets = Repo.AllSets.Where(s => s.Block == search).ToList();
 			
-			return View("Index", vm);			
+			return View("Index", vm);
 		}
 	}
 }

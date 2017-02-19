@@ -1,4 +1,10 @@
 ﻿<form class="navbar-right" method="post" asp-controller="Home" asp-action="Search">
+	<label>
+		Cards: <input type="radio" name="searchType" value="Cards" checked />
+	</label>
+	<label>
+		Sets: <input type="radio" name="searchType" value="Sets" />
+	</label>
 	<input class="searchArea" type="text" name="search" />
 	<input type="submit" value="Search" />
 </form>

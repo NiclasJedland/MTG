@@ -9,6 +9,10 @@
 	font-family: 'Roboto', sans-serif;
 }
 
+footer{
+	text-align: center;
+}
+
 .rare {
 	color: #dbc486;
 }
@@ -62,4 +66,8 @@
 .searchArea{
 	text-align: center;
 	margin-top: 10px;
+}
+
+.block:hover{
+	text-decoration: underline;
 }

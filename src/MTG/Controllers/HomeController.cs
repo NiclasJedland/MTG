@@ -36,9 +36,18 @@ namespace MTG.Controllers
 			var vm = new ViewModel();
 			vm.Cards = new List<Card>();
 
-			vm.Cards= Repo.AllSets.SelectMany(s => s.Cards).Where(s => s.Name.ToLower().Contains(search.ToLower())).ToList();
+			vm.Cards= Repo.AllSets.SelectMany(s => s.Cards)
+				.Where(s => s.Name.ToLower().Contains(search.ToLower())).ToList();
 
 			return View(vm);
+		}
+
+		public IActionResult SearchBlock(string search)
+		{
+			var vm = new ViewModel();			
+			vm.Sets = Repo.AllSets.Where(s => s.Block == search).ToList();
+			
+			return View("Index", vm);			
 		}
 	}
 }

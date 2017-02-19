@@ -1,25 +1,31 @@
 ﻿@model MTG.Models.Card
 @{ 
-	var test = "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + Model.MultiverseId + "&type=card";
+	var cardPic = "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + Model.MultiverseId + "&type=card";
+	var card = "http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=" + Model.MultiverseId;
 }
 <div class="container">
-	@if(Model.Rarity == "Mythic Rare")
-	{
-		<h1 class="cardInfo text-center mythic">@Model.Name</h1>
-	}
-	else if(Model.Rarity == "Rare")
-	{
-		<h1 class="cardInfo text-center rare">@Model.Name</h1>
-	}
-	<div class="cardInfo text-center">
-		<img class="fullCard" src="@test"/>
-	</div>
-	@foreach(var ruling in Model.Rulings)
-	{
-		<div class="cardInfo">
-			<div class="rule text-center col-md-1">@ruling.Date:</div>
-			<div class="rule text-center col-md-11">@ruling.Text</div>
+	<a href="@card">
+		@if(Model.Rarity == "Mythic Rare")
+		{
+			<h1 class="cardInfo text-center mythic">@Model.Name</h1>
+		}
+		else if(Model.Rarity == "Rare")
+		{
+			<h1 class="cardInfo text-center rare">@Model.Name</h1>
+		}
+		<div class="cardInfo text-center">
+			<img class="fullCard" src="@("/images/" + Model.Set + "/" + Model.Name + ".jpg")" />
 		</div>
-	}
+	</a>
+	<div>
+		<h3 class="text-center">Rulings</h3>
+		@foreach(var ruling in Model.Rulings)
+		{
+			<div class="cardInfo">
+				<div class="rule text-center col-md-1">@ruling.Date:</div>
+				<div class="rule text-center col-md-11">@ruling.Text</div>
+			</div>
+		}
+	</div>
 </div>
 

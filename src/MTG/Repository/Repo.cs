@@ -55,7 +55,7 @@ namespace MTG.Repository
 			{
 				if(Card.rarity == "Rare" || Card.rarity == "Mythic Rare")
 				{
-					var card = PopulateCard(Card);
+					var card = PopulateCard(Card, set);
 					returnSet.Cards.Add(card);
 				}
 				else
@@ -69,7 +69,7 @@ namespace MTG.Repository
 			return returnSet;
 		}
 
-		private static Card PopulateCard(dynamic c)
+		private static Card PopulateCard(dynamic c, string set)
 		{
 			var returnCard = new Card();
 			returnCard.ColorIdentity = new List<string>();
@@ -155,6 +155,8 @@ namespace MTG.Repository
 			{
 				returnCard.Variations.Add((string)item);
 			}
+
+			returnCard.Set = set;
 
 			return returnCard;
 		}

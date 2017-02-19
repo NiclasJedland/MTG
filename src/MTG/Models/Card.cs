@@ -98,5 +98,6 @@ namespace MTG.Models
 		[JsonProperty("variations")]
 		public List<string> Variations { get; set; }
 		
+		public string Set { get;  set;}
 	}
 }

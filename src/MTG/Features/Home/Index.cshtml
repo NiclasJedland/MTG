@@ -1,5 +1,7 @@
 ﻿@model HomeViewModel
+@{
 
+}
 <div class="container">
 	<div>
 		<div id="pagination" class="col-md-12 text-center">
@@ -23,9 +25,13 @@
 				<div class="setInfo text-center col-md-2">@set.Type</div>
 				<div class="setInfo text-center col-md-2">@set.ReleaseDate</div>
 			</div>
+
 			<div class="cards row" hidden>
 				<div id="pagination" class="col-md-12 text-center">
-					<pager item-default-link='PagerItemLinkGenerators.Format("/Home/Index?currentPageCard={0:d}")' source="@set.PaginatedCard" />
+					<pager item-default-link='PagerItemLinkGenerators.Format("/Home/Index?currentPageCard={0:d}&selectedSets=javascript:return getHighlighted()")'
+						   source="@set.PaginatedCard" />
+					@*<pager item-default-link='PagerItemLinkGenerators.Custom((int currentPageCard) => Url.Action("Index,", "Home", new {currentPageCard = currentPageCard, id = myId}))'
+						source="@set.PaginatedCard" />*@
 				</div>
 				@foreach (var card in set.PaginatedCard.OrderBy(s => s.Rarity).ThenBy(s => s.Name))
 				{
@@ -50,17 +56,4 @@
 		}
 	</div>
 </div>
-<script>
-	$(document).ready(function () {
-		$(".set div").click(function () {
-			$(this).parent().next().slideToggle(0);
-			if ($(this).parent().hasClass("highlighted")) {
-				$(this).parent().removeClass("highlighted");
-			}
-			else {
-				$(this).parent().addClass("highlighted");
-			}
-		});
-	});
-</script>
 

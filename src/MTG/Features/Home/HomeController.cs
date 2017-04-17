@@ -17,7 +17,7 @@ namespace MTG.Controllers
 			return RedirectToAction("Index");
 		}
 
-		public IActionResult Index(HomeViewModel vm, int currentPageSet, int currentPageCard, string highlightedSet)
+		public IActionResult Index(HomeViewModel vm, int currentPageSet, int currentPageCard, string selectedSets)
 		{
 			if (currentPageSet == 0)
 				currentPageSet = StaticVariables.CurrentPageSet;

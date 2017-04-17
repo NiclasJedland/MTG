@@ -1,16 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F59FE880-A42E-494A-8856-94F6E125398E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FCDB9A07-540D-4BD7-A7EB-CD91AF7B76CA}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MTG", "src\MTG\MTG.xproj", "{465E5AFD-98DB-47B4-A082-7CBD7B2491EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTG", "src\MTG\MTG.csproj", "{465E5AFD-98DB-47B4-A082-7CBD7B2491EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

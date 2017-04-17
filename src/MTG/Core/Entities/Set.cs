@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
+using Sakura.AspNetCore;
 
 namespace MTG.Models
 {
-    public class Set
-    {
+	public class Set
+	{
 		[JsonProperty("name")]
 		public string Name { get; set; }
 
@@ -28,6 +26,9 @@ namespace MTG.Models
 
 		[JsonProperty("cards")]
 		public List<Card> Cards { get; set; }
+
+		public PagedList<IEnumerable<Card>, Card> PaginatedCard { get; set; }
+
 
 	}
 }

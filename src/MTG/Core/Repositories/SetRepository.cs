@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using MTG.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace MTG.Repository
 {
-	public static class Repo
+	public static class SetRepository
 	{
 		public static List<Set> AllSets { get; set; }
 
@@ -24,13 +22,13 @@ namespace MTG.Repository
 
 			dynamic dynamicData = JsonConvert.DeserializeObject(json);
 
-			foreach(var SetName in dynamicData)
+			foreach (var SetName in dynamicData)
 			{
-				foreach(var Set in SetName)
-				{					
+				foreach (var Set in SetName)
+				{
 					var date = DateTime.Parse(Set.releaseDate.ToString()).Date;
 
-					if((Set.type == "core" || Set.type == "expansion") && (date > targetDate))
+					if ((Set.type == "core" || Set.type == "expansion") && (date > targetDate))
 					{
 						var set = PopulateSet(Set, Set.name.ToString());
 						returnList.Add(set);
@@ -51,9 +49,9 @@ namespace MTG.Repository
 			returnSet.Type = s.type;
 			returnSet.Block = s.block == null ? "Core" : s.block;
 
-			foreach(var Card in s.cards)
+			foreach (var Card in s.cards)
 			{
-				if(Card.rarity == "Rare" || Card.rarity == "Mythic Rare")
+				if (Card.rarity == "Rare" || Card.rarity == "Mythic Rare")
 				{
 					var card = PopulateCard(Card, set);
 					returnSet.Cards.Add(card);
@@ -62,10 +60,11 @@ namespace MTG.Repository
 				{
 					//remove all non-rare/mythics image files
 					var file = @"wwwroot\images\" + set + @"\" + Card.name.ToString() + ".jpg";
-					if(File.Exists(file))
+					if (File.Exists(file))
 						File.Delete(file);
 				}
 			}
+
 			return returnSet;
 		}
 
@@ -85,12 +84,12 @@ namespace MTG.Repository
 			returnCard.Artist = c.artist;
 			returnCard.Cmc = c.cmc;
 
-			foreach(var item in c.colorIdentity ?? Enumerable.Empty<string>())
+			foreach (var item in c.colorIdentity ?? Enumerable.Empty<string>())
 			{
 				returnCard.ColorIdentity.Add((string)item);
 			}
 
-			foreach(var item in c.colors ?? Enumerable.Empty<string>())
+			foreach (var item in c.colors ?? Enumerable.Empty<string>())
 			{
 				returnCard.Colors.Add((string)item);
 			}
@@ -105,7 +104,7 @@ namespace MTG.Repository
 			returnCard.MultiverseId = c.multiverseid;
 			returnCard.Name = c.name;
 
-			foreach(var item in c.names ?? Enumerable.Empty<string>())
+			foreach (var item in c.names ?? Enumerable.Empty<string>())
 			{
 				returnCard.Names.Add((string)item);
 			}
@@ -115,14 +114,14 @@ namespace MTG.Repository
 			returnCard.OriginalType = c.originalType;
 			returnCard.Power = c.power;
 
-			foreach(var item in c.printings ?? Enumerable.Empty<string>())
+			foreach (var item in c.printings ?? Enumerable.Empty<string>())
 			{
 				returnCard.Printings.Add((string)item);
 			}
 
 			returnCard.Rarity = c.rarity;
 
-			foreach(var item in c.rulings ?? Enumerable.Empty<string>())
+			foreach (var item in c.rulings ?? Enumerable.Empty<string>())
 			{
 				string date = item.date;
 				string text = item.text;
@@ -132,12 +131,12 @@ namespace MTG.Repository
 				returnCard.Rulings.Add(ruling);
 			}
 
-			foreach(var item in c.subtypes ?? Enumerable.Empty<string>())
+			foreach (var item in c.subtypes ?? Enumerable.Empty<string>())
 			{
 				returnCard.Subtypes.Add((string)item);
 			}
 
-			foreach(var item in c.supertypes ?? Enumerable.Empty<string>())
+			foreach (var item in c.supertypes ?? Enumerable.Empty<string>())
 			{
 				returnCard.SuperTypes.Add((string)item);
 			}
@@ -146,12 +145,12 @@ namespace MTG.Repository
 			returnCard.Toughness = c.toughness;
 			returnCard.Type = c.type;
 
-			foreach(var item in c.types ?? Enumerable.Empty<string>())
+			foreach (var item in c.types ?? Enumerable.Empty<string>())
 			{
 				returnCard.Types.Add((string)item);
 			}
 
-			foreach(var item in c.variations ?? Enumerable.Empty<string>())
+			foreach (var item in c.variations ?? Enumerable.Empty<string>())
 			{
 				returnCard.Variations.Add((string)item);
 			}

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace MTG.Models
 {
-    public class Card
-    {
+	public class Card
+	{
 		[JsonProperty("artist")]
 		public string Artist { get; set; }
 
@@ -70,7 +67,7 @@ namespace MTG.Models
 
 		[JsonProperty("rarity")]
 		public string Rarity { get; set; }
-		
+
 		[JsonProperty("rulings")]
 		public List<Ruling> Rulings { get; set; }
 
@@ -97,7 +94,9 @@ namespace MTG.Models
 
 		[JsonProperty("variations")]
 		public List<string> Variations { get; set; }
-		
-		public string Set { get;  set;}
+
+		public string Set { get; set; }
+
+
 	}
 }
